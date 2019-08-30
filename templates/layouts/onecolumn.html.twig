@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Employees Basic Layout {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <header>
+            {% block header %}
+            {% endblock %}
+        </header>
+
+        <content>
+            {% block content %}
+            {% endblock %}
+        </content>
+
+        <footer>
+            {% block footer %}
+            {% endblock %}
+        </footer>
+
+    </div>
+{% endblock %}
