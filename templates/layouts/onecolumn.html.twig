@@ -4,22 +4,23 @@
 
 {% block body %}
 
+
+
+    <header>
+        {% block header %}
+            {% include 'header.html.twig' %}
+        {% endblock %}
+    </header>
     <div class="container">
-
-        <header>
-            {% block header %}
-            {% endblock %}
-        </header>
-
         <content>
             {% block content %}
             {% endblock %}
         </content>
-
-        <footer>
-            {% block footer %}
-            {% endblock %}
-        </footer>
-
     </div>
+    <footer>
+        {% block footer %}
+        {% endblock %}
+    </footer>
+
+
 {% endblock %}
