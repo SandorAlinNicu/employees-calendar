@@ -4,13 +4,14 @@
 
 {% block body %}
     <h1>Register</h1>
-
+    {% for label, messages in app.flashes(['warning', 'error', 'success', 'critical', 'danger']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.username) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.plainPassword) }}
-    {{ form_row(registrationForm.agreeTerms) }}
-
-    <button class="btn">Register</button>
+    {{ form_widget(registrationForm) }}
     {{ form_end(registrationForm) }}
 {% endblock %}
