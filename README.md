@@ -10,3 +10,9 @@
 
         composer install
         
+3. Add default data
+
+        php bin/console add-default-data
+
+
+        
