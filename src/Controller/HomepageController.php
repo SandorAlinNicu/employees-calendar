@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomepageController extends AbstractController
 {
@@ -14,4 +15,5 @@ class HomepageController extends AbstractController
     {
         return $this->render('pages/homepage.html.twig');
     }
+
 }
