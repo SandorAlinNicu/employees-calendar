@@ -1,0 +1,9 @@
+.centered{
+    margin: 0 auto;
+}
+.centered h1 {
+    text-align: center;
+}
+.form-wrapper{
+    max-width: 450px;
+}

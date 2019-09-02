@@ -40,9 +40,6 @@ class LoginFormType extends AbstractType
             'attr' => [
                 'novalidate' => 'novalidate',
             ],
-            'constraints' => [
-
-            ]
         ]);
     }
 }
