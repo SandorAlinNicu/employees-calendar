@@ -14,5 +14,9 @@
 
         php bin/console add-default-data
 
+## Available commands
+1. Add admin user
+
+        php bin/console add-admin-user <email> <password>
 
         
