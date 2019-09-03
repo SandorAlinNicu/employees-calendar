@@ -36,6 +36,7 @@ class RegistrationController extends AbstractController
             );
 
             $user->setUsername($form->get('email')->getData());
+            $user->setFullName($form->get('fullName')->getData());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -53,7 +54,6 @@ class RegistrationController extends AbstractController
         return $this->render('centeredformpage.html.twig', [
             'form' => $form->createView(),
             'title' => 'Register',
-
         ]);
     }
 }
