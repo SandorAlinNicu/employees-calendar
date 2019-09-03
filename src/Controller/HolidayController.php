@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Holiday;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+
 
 class HolidayController extends AbstractController
 {
@@ -17,17 +19,17 @@ class HolidayController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function holidayRequest(Request $request)
+    public function holidayRequest(Request $request, Security $security): Response
     {
-        // just setup a fresh $task object (remove the example data)
-        $holiday = new Holiday();
 
-        $form = $this->createForm(HolidayType::class, $holiday);
+        $user = $security->getUser();
+
+        $form = $this->createForm(HolidayType::class, [
+            'email' => $user->getUsername()
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$holiday` variable has also been updated
             $holiday = $form->getData();
         }
 

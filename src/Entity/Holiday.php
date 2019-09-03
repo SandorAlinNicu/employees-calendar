@@ -1,88 +1,110 @@
 <?php
-// src/Entity/Task.php
+
 namespace App\Entity;
 
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\HolidayRepository")
+ */
 class Holiday
 {
-    protected $name;
-    protected $departments;
-    protected $positions;
     /**
-     * @Assert\Range(
-     *      min = 1,
-     *      max = 22,
-     *      minMessage = "You should take at least 1 day off",
-     *      maxMessage = "You are allowed to take a maximum of 22 days of holiday"
-     * )
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    protected $days;
+    private $id;
 
     /**
-     * @return mixed
+     * @ORM\Column(type="string", length=255)
      */
-    public function getName()
+    private $name;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Department", inversedBy="test", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $department;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Position", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $position;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $days;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDepartments()
+    public function getDepartment(): ?Department
     {
-        return $this->departments;
+        return $this->department;
     }
 
-    /**
-     * @param mixed $departments
-     */
-    public function setDepartments($departments)
+    public function setDepartment(Department $department): self
     {
-        $this->departments = $departments;
+        $this->department = $department;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPositions()
+    public function getPosition(): ?Position
     {
-        return $this->positions;
+        return $this->position;
     }
 
-    /**
-     * @param mixed $positions
-     */
-    public function setPositions($positions)
+    public function setPosition(Position $position): self
     {
-        $this->positions = $positions;
+        $this->position = $position;
+
+        return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDays()
+    public function getDays(): ?int
     {
         return $this->days;
     }
 
-    /**
-     * @param mixed $days
-     */
-    public function setDays($days)
+    public function setDays(int $days): self
     {
         $this->days = $days;
+
+        return $this;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
 }

@@ -47,8 +47,4 @@ class DepartmentRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function importDepartments($dep)
-    {
-        echo "Sadasdsa";
-    }
 }
