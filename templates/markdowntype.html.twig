@@ -1,0 +1,10 @@
+{% block mark_down_widget %}
+    {% spaceless %}
+        <div>
+            {{ form.vars.value | raw }}
+            <a href="{{ path('connect_google_start') }}" class="google btn">
+                <i class="fa fa-google fa-fw"></i> Login with Google
+            </a>
+        </div>
+    {% endspaceless %}
+{% endblock %}

@@ -1,9 +1,16 @@
-.centered{
+.centered {
     margin: 0 auto;
 }
+
 .centered h1 {
     text-align: center;
 }
-.form-wrapper{
+
+.form-wrapper {
     max-width: 450px;
+}
+
+.google {
+    background-color: #dd4b39;
+    color: white;
 }

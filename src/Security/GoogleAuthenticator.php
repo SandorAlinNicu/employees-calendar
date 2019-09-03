@@ -37,12 +37,6 @@ class GoogleAuthenticator extends SocialAuthenticator
     public function getCredentials(Request $request)
     {
         // this method is only called if supports() returns true
-
-        // For Symfony lower than 3.4 the supports method need to be called manually here:
-        // if (!$this->supports($request)) {
-        //     return null;
-        // }
-
         return $this->fetchAccessToken($this->getGoogleClient());
     }
 
@@ -55,7 +49,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
         // 1) have they logged in with Google before? Easy!
         $existingUser = $this->em->getRepository(User::class)
-            ->findOneBy(['email' => $googleUser->getEmail()]); //possible problem? googleId
+            ->findOneBy(['email' => $googleUser->getEmail()]);
         if ($existingUser) {
             return $existingUser;
         }
@@ -66,11 +60,14 @@ class GoogleAuthenticator extends SocialAuthenticator
 
         // 3) Maybe you just want to "register" them by creating
         // a User object
-        $user = new User();
+        if(!$user) {
+            $user = new User();
+        }
         $user->setUsername($googleUser->getName());
         $user->setEmail($googleUser->getEmail());
         $this->em->persist($user);
         $this->em->flush();
+
 
         return $user;
     }
@@ -84,13 +81,9 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // change "app_homepage" to some route in your app
         $targetUrl = $this->router->generate('homepage');
 
         return new RedirectResponse($targetUrl);
-
-        // or, on success, let the request continue to be handled by the controller
-        //return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -112,5 +105,4 @@ class GoogleAuthenticator extends SocialAuthenticator
         );
     }
 
-    // ...
 }
