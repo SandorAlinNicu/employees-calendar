@@ -22,13 +22,13 @@ class Holiday
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Department", inversedBy="test", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Department", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $department;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Position", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Position", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $position;
