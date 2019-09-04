@@ -35,5 +35,4 @@ class ActivateUserType extends AbstractType
                 'data' => "<a href='" . $this->urlGenerator->generate('users', [], true) . "' class='btn btn-primary'>No</a>",
             ]);
     }
-
 }

@@ -76,6 +76,7 @@ class AddAdminUserCommand extends Command
                     $input->getArgument('password')
                 )
             );
+            $existingUser->setActive(true);
 
             $this->em->persist($existingUser);
             $this->em->flush();
@@ -117,6 +118,7 @@ class AddAdminUserCommand extends Command
             );
             $user->setRoles(array('ROLE_ADMIN'));
             $user->setEmail($input->getArgument('email'));
+            $user->setActive(true);
 
             // Persist and flash in database
             $this->em->persist($user);
@@ -133,7 +135,6 @@ class AddAdminUserCommand extends Command
             $output->writeln([
                 '',
                 '==========================================================================================================',
-                '=========================================================================================================='
             ]);
         }
     }
