@@ -1,0 +1,41 @@
+{%  macro printInterval(interval) %}
+    {% spaceless %}
+        <div class="collection-item input-group container-full">
+            <div class="row">
+                <div class="col-xs-10 vcenter">
+                    {{ form_row(interval) }}
+                </div>
+                <div class="col-xs-2 vcenter">
+                    <a class="remove-item glyphicon glyphicon-trash" href="javascript:;"></a>
+                </div>
+
+                {% if (interval.vars.allow_delete is defined and interval.vars.allow_delete == true) %}
+                    <div class="col-xs-2 vcenter">
+                        <a class="remove-item glyphicon glyphicon-trash" href="javascript:;"></a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    {% endspaceless %}
+{% endmacro %}
+
+{% block interval_collection_widget %}
+    {% import _self as formMacros %}
+    {% spaceless %}
+        <div id="intervals-entry-wrapper" class="collection-wrapper form-group"
+            data-prototype="{{ formMacros.printInterval(form.vars.prototype)|e('html_attr') }}"
+        >
+            {% for interval in form %}
+                {{ formMacros.printInterval(interval) }}
+            {% endfor %}
+            {% if (form.vars.allow_add is defined and form.vars.allow_add == true) %}
+                <div id="intervals-entry-actions">
+                    <button id="add-interval-entry" class="add-item btn-default btn">Add</button>
+                </div>
+            {% endif %}
+        </div>
+
+    {% endspaceless %}
+{% endblock %}

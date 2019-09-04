@@ -4,8 +4,11 @@ namespace App\Form\Type;
 
 use App\Entity\Department;
 use App\Entity\Holiday;
+use App\Entity\Interval;
 use App\Entity\Position;
 use App\Validator\Constraints\EmailInUse;
+use Doctrine\DBAL\Types\DateType;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,11 +17,13 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use \App\Form\Type\IntervalType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 class HolidayType extends AbstractType
@@ -57,21 +62,13 @@ class HolidayType extends AbstractType
                     new NotBlank(),
                 ]
             ])
-            ->add('days', IntegerType::class, [
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(),
-                    new Positive(),
-
-                ]
-            ])
+            ->add('intervals', IntervalCollectionType::class)
             ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-//            'data_class' => Holiday::class,
             'attr' => ['novalidate' => 'novalidate']
         ]);
     }

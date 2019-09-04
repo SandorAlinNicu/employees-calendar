@@ -41,7 +41,7 @@ class Holiday
     private $email;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Interval")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Interval", cascade={"persist"})
      */
     private $intervals;
 
