@@ -46,7 +46,7 @@ class User implements UserInterface
     private $fullName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $activationToken;
 
@@ -155,6 +155,12 @@ class User implements UserInterface
     public function getActivationToken(): ?string
     {
         return $this->activationToken;
+    }
+
+    public function deleteActivationToken(): self
+    {
+        $this->activationToken = null;
+        return $this;
     }
 
     public function setActivationToken(string $activationToken): self

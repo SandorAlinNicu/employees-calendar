@@ -83,6 +83,7 @@ class RegistrationController extends AbstractController
         $userRepo = $entityManager->getRepository(User::class);
         $user = $userRepo->findOneBy(['activationToken' => $token]);
         $user->setActive(true);
+        $user->deleteActivationToken();
         $entityManager->persist($user);
         $entityManager->flush();
         return $this->redirectToRoute('homepage');
