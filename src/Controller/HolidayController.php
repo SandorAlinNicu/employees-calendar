@@ -13,6 +13,7 @@ use App\Entity\Holiday;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Date;
 
 
 class HolidayController extends AbstractController
@@ -52,8 +53,8 @@ class HolidayController extends AbstractController
             foreach ($intervals as $key => $value) {
 
                 $interval = new Interval();
-                $interval->setFrom($value['from']);
-                $interval->setTo($value['to']);
+                $interval->setFromDate($value['from']);
+                $interval->setToDate($value['to']);
                 $holiday->addInterval($interval);
             }
             $entityManager = $this->getDoctrine()->getManager();

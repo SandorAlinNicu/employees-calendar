@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntervalRepository")
+ * @Table(name="`interval`")
  */
 class Interval
 {
@@ -19,38 +21,38 @@ class Interval
     /**
      * @ORM\Column(type="datetime")
      */
-    private $from;
+    private $fromDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $to;
+    private $toDate;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFrom(): ?\DateTimeInterface
+    public function getFromDate(): ?\DateTimeInterface
     {
-        return $this->from;
+        return $this->fromDate;
     }
 
-    public function setFrom(\DateTimeInterface $from): self
+    public function setFromDate(\DateTimeInterface $fromDate): self
     {
-        $this->from = $from;
+        $this->fromDate = $fromDate;
 
         return $this;
     }
 
-    public function getTo(): ?\DateTimeInterface
+    public function getToDate(): ?\DateTimeInterface
     {
-        return $this->to;
+        return $this->toDate;
     }
 
-    public function setTo(?\DateTimeInterface $to): self
+    public function setToDate(?\DateTimeInterface $toDate): self
     {
-        $this->to = $to;
+        $this->toDate = $toDate;
 
         return $this;
     }
