@@ -49,8 +49,9 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $email_sender = $_ENV['EMAIL_SENDING_ADDRESS'];
             $message = (new \Swift_Message('Hello Email'))
-                ->setFrom('rob@rnwood.co.uk')
+                ->setFrom($email_sender)
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->render('email/registrationconfirmation.html.twig', [

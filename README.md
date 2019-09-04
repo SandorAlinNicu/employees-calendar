@@ -33,3 +33,9 @@
         OAUTH_GOOGLE_CLIENT_SECRET=<your_client_secret> 
 7. Click on the OAuth Consent Screen, and add your vhost domain name to Authorized domains.
 8. Set your Application Homepage link.
+
+## Configure email sender name
+1. In .env.local set the desired sending email address.
+
+        EMAIL_SENDING_ADDRESS=<example@gmail.com>
+
