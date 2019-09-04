@@ -5,21 +5,31 @@
 {% block content %}
     <h1>User</h1>
 
-    <table class="table">
+    <table class="table table-responsive">
         <tbody>
         <th>Username</th>
         <th>Status</th>
         <th>Roles</th>
         <th>Email</th>
-        <th>Options</th>
+        <th colspan="2" class="text-center">Options</th>
 
         {% for entity in user %}
             <tr>
                 <td>{{ entity.username }}</td>
-                <td></td>
+                {% if entity.active == 0 %}
+                    <td>Inactive</td>
+                {% else %}
+                    <td>Active</td>
+                {% endif %}
+
                 <td>{{ entity.roles ? entity.roles|join(', ') : '' }}</td>
                 <td>{{ entity.email }}</td>
-                <td><a href="{{ path('user_delete', {'id': entity.id})}}">Delete</a></td>
+                <td><a href="{{ path('user_delete', {'id': entity.id}) }}">Delete</a></td>
+                <td>
+                    {% if entity.active == 0 %}
+                        <a href="{{ path('user_activate', {'id': entity.id}) }}">Activate</a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
 
