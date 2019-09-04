@@ -1,0 +1,29 @@
+{% extends 'layouts/onecolumn.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Roles</th>
+        <th>Email</th>
+        <th>Options</th>
+
+        {% for entity in user %}
+            <tr>
+                <td>{{ entity.username }}</td>
+                <td></td>
+                <td>{{ entity.roles ? entity.roles|join(', ') : '' }}</td>
+                <td>{{ entity.email }}</td>
+                <td><a href="{{ path('user_delete', {'id': entity.id})}}">Delete</a></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

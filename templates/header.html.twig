@@ -6,6 +6,10 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="/holiday-request">Request Holiday</a></li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li><a href="{{ path('users') }}">Users</a></li>
+            {% endif %}
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
 
