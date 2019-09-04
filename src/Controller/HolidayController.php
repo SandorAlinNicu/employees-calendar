@@ -24,8 +24,14 @@ class HolidayController extends AbstractController
 
         $user = $security->getUser();
 
+        if (isset($user)) {
+            $username = $user->getUsername();
+        } else {
+            $username = '';
+        }
+
         $form = $this->createForm(HolidayType::class, [
-            'email' => $user->getUsername()
+            'email' => $username,
         ]);
 
         $form->handleRequest($request);
