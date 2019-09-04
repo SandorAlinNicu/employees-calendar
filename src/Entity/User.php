@@ -45,6 +45,16 @@ class User implements UserInterface
      */
     private $fullName;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $activationToken;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +148,30 @@ class User implements UserInterface
     public function setFullName(?string $fullName): self
     {
         $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken(string $activationToken): self
+    {
+        $this->activationToken = $activationToken;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

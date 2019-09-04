@@ -56,13 +56,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-
         if (!$user) {
             // fail authentication with a custom error
             $this->flashBag->add('danger', 'This user does not exist!');
         }
-
-        return $user;
+        if ($user->getActive()) {
+            return $user;
+        } else {
+            $this->flashBag->add('danger', 'This user is not active!');
+        }
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -81,8 +83,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         return new RedirectResponse($request->getUri());
-        //return $this->redirect();
-        //throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }
 
     protected function getLoginUrl()
