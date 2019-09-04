@@ -1,25 +1,38 @@
+{% macro is_active(path, route) %}
+    {% if path == route %}active{% endif %}
+{% endmacro %}
+
+{% macro icon(menuItem) %}
+    {% if menuItem.icon is defined %}
+    <span class="{{ menuItem.icon|join(' ') }}"></span>
+    {% endif %}
+{% endmacro %}
+
+
+{% import _self as macros %}
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">Employees Calendar</a>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/holiday-request">Request Holiday</a></li>
-            {% if is_granted('ROLE_ADMIN') %}
-            <li><a href="{{ path('users') }}">Users</a></li>
-            {% endif %}
+        {% set route = app.request.get('_route') %}
 
+        <ul class="nav navbar-nav">
+            {% for menuItem in leftMenu %}
+                <li class="{{ macros.is_active(menuItem.path, route) }}"><a
+                            href="{{ path(menuItem.path) }}"> {{ menuItem.label }}</a></li>
+            {% endfor %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
-
             {% if is_granted('ROLE_USER') %}
                 <li><p class="navbar-text">Welcome, {{ app.user.fullName }}!</p></li>
-                <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-            {% else %}
-                <li><a href="{{ path('app_register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% endif %}
+            {% for menuItem in rightMenu %}
+                <li class="{{ macros.is_active(menuItem.path, route) }}">
+                    <a href="{{ path(menuItem.path) }}"> {{ macros.icon(menuItem) }} {{ menuItem.label }}</a>
+                </li>
+            {% endfor %}
+
         </ul>
     </div>
 </nav>

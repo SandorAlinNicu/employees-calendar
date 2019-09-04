@@ -6,7 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomepageController extends AbstractController
+
+class HomepageController extends BasicController
 {
     /**
      * @Route("/", name="homepage")
@@ -17,5 +18,4 @@ class HomepageController extends AbstractController
             'title' => 'Homepage'
         ]);
     }
-
 }

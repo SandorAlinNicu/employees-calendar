@@ -16,10 +16,10 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Date;
 
 
-class HolidayController extends AbstractController
+class HolidayController extends BasicController
 {
     /**
-     * @Route("/holiday-request")
+     * @Route("/holiday-request", name="holiday-request")
      * @param Request $request
      * @return Response
      * @throws \Exception

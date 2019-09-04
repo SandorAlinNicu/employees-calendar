@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
-class SecurityController extends AbstractController
+class SecurityController extends BasicController
 {
     /**
      * @Route("/login", name="app_login")
