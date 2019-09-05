@@ -49,6 +49,7 @@ class EditDepartmentType extends AbstractType
             ])
             ->add('managers', EntityType::class, [
                 'class' => User::class,
+                'attr' => array('class' => 'chzn-select'),
                 'multiple' => true,
                 'data' => $department->getManagers(),
                 'placeholder' => 'Choose an option',
