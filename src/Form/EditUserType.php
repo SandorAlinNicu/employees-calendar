@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -59,5 +60,14 @@ class EditUserType extends AbstractType
                 'label' => false,
                 'data' => "<a href='" . $this->urlGenerator->generate('users', [], true) . "' class='btn btn-primary'>Cancel</a>",
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'attr' => [
+                'novalidate' => 'novalidate',
+            ],
+        ]);
     }
 }
