@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         }
         $form = $this->createForm(LoginFormType::class);
         $form->handleRequest($request);
-        return $this->render('centeredformpage.html.twig', [
+        return $this->render('pages/centered_form_page.html.twig', [
             'form' => $form->createView(),
             'title' => 'Login'
         ]);

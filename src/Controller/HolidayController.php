@@ -39,8 +39,9 @@ class HolidayController extends AbstractController
             $holiday = $form->getData();
         }
 
-        return $this->render('pages/holiday-request.html.twig', [
+        return $this->render('pages/form_page.html.twig', [
             'form' => $form->createView(),
+            'title' => 'Request Holiday',
         ]);
     }
 }

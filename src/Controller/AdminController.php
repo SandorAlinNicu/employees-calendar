@@ -46,7 +46,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'User deleted!');
             return $this->redirectToRoute('users');
         }
-        return $this->render('formpage.html.twig', [
+        return $this->render('pages/form_page.html.twig', [
             'title' => "Are you sure you want to delete this user?",
             'form' => $form->createView(),
         ]);
@@ -71,7 +71,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'User activated!');
             return $this->redirectToRoute('users');
         }
-        return $this->render('formpage.html.twig', [
+        return $this->render('pages/form_page.html.twig', [
             'title' => "Are you sure you want to manually activate this user?",
             'form' => $form->createView(),
         ]);
