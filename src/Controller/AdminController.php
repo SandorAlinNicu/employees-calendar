@@ -9,6 +9,7 @@ use App\Entity\Department;
 use App\Form\ActivateUserType;
 use App\Form\DeleteUserType;
 use App\Form\EditUserType;
+use App\Form\EditDepartmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -120,6 +121,32 @@ class AdminController extends BasicController
         return $this->render('departments.html.twig', [
             'departments' => $departments,
             'title' => 'Departments'
+        ]);
+    }
+
+    /**
+     * @Route("/department/edit/{id}", name="department_edit")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function editDepartmentAction($id, Request $request)
+    {
+        $form = $this->createForm(EditDepartmentType::class, [
+            'departmentId' => $id
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $department = $em->getRepository(Department::class)->findOneBy(['id' => $id]);
+            $department->updateManagers($form->get('managers')->getData()->toArray());
+            $department->setName($form->get('name')->getData());
+            $em->persist($department);
+            $em->flush();
+            $this->addFlash('success', 'Department updated!');
+            return $this->redirectToRoute('departments');
+        }
+        return $this->render('pages/form_page.html.twig', [
+            'title' => "Edit departments",
+            'form' => $form->createView(),
         ]);
     }
 }

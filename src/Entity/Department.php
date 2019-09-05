@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +23,16 @@ class Department
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="departments")
+     */
+    private $managers;
+
+    public function __construct()
+    {
+        $this->managers = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,5 +48,46 @@ class Department
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getManagers(): Collection
+    {
+        return $this->managers;
+    }
+
+    public function addManager(User $manager): self
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers[] = $manager;
+        }
+
+        return $this;
+    }
+
+    public function removeManager(User $manager): self
+    {
+        if ($this->managers->contains($manager)) {
+            $this->managers->removeElement($manager);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param User[] $newManagers
+     */
+    public function updateManagers($newManagers)
+    {
+        // Remove existing managers from this department.
+        foreach ($this->managers as $manager) {
+            $this->managers->removeElement($manager);
+        }
+        // Add new selected managers to current department.
+        foreach ($newManagers as $newManager) {
+            $this->addManager($newManager);
+        }
     }
 }

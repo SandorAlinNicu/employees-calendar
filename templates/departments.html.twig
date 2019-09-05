@@ -11,10 +11,12 @@
         <tbody>
             <th>ID</th>
             <th>Name</th>
+            <th>Options</th>
             {% for entity in departments %}
                 <tr>
                     <td>{{ entity.id }}</td>
                     <td>{{ entity.name }}</td>
+                    <td><a href="{{ path('department_edit', {'id': entity.id}) }}">Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
