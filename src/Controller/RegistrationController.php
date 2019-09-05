@@ -74,7 +74,7 @@ class RegistrationController extends AbstractController
      * @Route("/user/activation/{token}", name="activate_user")
      *
      */
-    public function confirmationRegister($token, Security $security)
+    public function confirmationRegister($token)
     {
         if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('homepage');
@@ -83,10 +83,15 @@ class RegistrationController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $userRepo = $entityManager->getRepository(User::class);
         $user = $userRepo->findOneBy(['activationToken' => $token]);
+        if ($user == null) {
+            $this->addFlash('danger', 'This activation token is already used or is invalid!');
+            return $this->redirectToRoute('homepage');
+        }
         $user->setActive(true);
         $user->deleteActivationToken();
         $entityManager->persist($user);
         $entityManager->flush();
+        $this->addFlash('success', 'Your account is successfully created!');
         return $this->redirectToRoute('homepage');
     }
 
