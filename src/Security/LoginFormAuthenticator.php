@@ -59,11 +59,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$user) {
             // fail authentication with a custom error
             $this->flashBag->add('danger', 'This user does not exist!');
-        }
-        if ($user->getActive()) {
-            return $user;
         } else {
-            $this->flashBag->add('danger', 'This user is not active!');
+            if ($user->getActive()) {
+                return $user;
+            } else {
+                $this->flashBag->add('danger', 'This user is not active!');
+            }
         }
     }
 
