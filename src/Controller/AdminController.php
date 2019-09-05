@@ -8,11 +8,11 @@ use App\Entity\User;
 use App\Entity\Department;
 use App\Form\ActivateUserType;
 use App\Form\DeleteUserType;
+use App\Form\EditUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
 
 class AdminController extends BasicController
 {
@@ -22,7 +22,6 @@ class AdminController extends BasicController
      */
     public function users()
     {
-
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         return $this->render('users.html.twig', [
             'user' => $users
@@ -75,6 +74,38 @@ class AdminController extends BasicController
         return $this->render('pages/form_page.html.twig', [
             'title' => "Are you sure you want to manually activate this user?",
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/user/edit/{id}", name="user_edit")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function editAction($id, Request $request)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+        $form = $this->createForm(EditUserType::class, [
+            'userId' => $id,
+            'fullName' => $user->getFullName(),
+            'department' => $user->getDepartment(),
+            'position' => $user->getPosition(),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
+            $user->setFullName($form->get('fullName')->getData());
+            $user->setDepartment($form->get('department')->getData());
+            $user->setPosition($form->get('position')->getData());
+            $em->flush();
+            return $this->redirectToRoute('users');
+        }
+
+        return $this->render('pages/form_page.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Edit user',
         ]);
     }
 

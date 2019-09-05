@@ -3,7 +3,7 @@
 {% block title %}Users{% endblock %}
 
 {% block content %}
-    <h1>User</h1>
+    <h1>Users</h1>
 
     <table class="table table-responsive">
         <tbody>
@@ -11,7 +11,8 @@
         <th>Status</th>
         <th>Roles</th>
         <th>Email</th>
-        <th colspan="2" class="text-center">Options</th>
+        <th>Full Name</th>
+        <th colspan="3" class="text-center">Options</th>
 
         {% for entity in user %}
             <tr>
@@ -24,12 +25,14 @@
 
                 <td>{{ entity.roles ? entity.roles|join(', ') : '' }}</td>
                 <td>{{ entity.email }}</td>
+                <td>{{ entity.fullName }}</td>
                 <td><a href="{{ path('user_delete', {'id': entity.id}) }}">Delete</a></td>
                 <td>
                     {% if entity.active == 0 %}
                         <a href="{{ path('user_activate', {'id': entity.id}) }}">Activate</a>
                     {% endif %}
                 </td>
+                <td><a href="{{ path('user_edit', {'id': entity.id}) }}">Edit</a></td>
             </tr>
         {% endfor %}
 
