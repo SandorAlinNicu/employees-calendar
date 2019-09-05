@@ -36,6 +36,11 @@ class BasicController extends AbstractController
                         'path' => 'users',
                         'label' => 'Users',
                         'roles' => ['ROLE_ADMIN']
+                    ),
+                    array(
+                        'path' => 'departments',
+                        'label' => 'Departments',
+                        'roles' => ['ROLE_ADMIN']
                     )
                 ),
                 'rightMenu' => array(

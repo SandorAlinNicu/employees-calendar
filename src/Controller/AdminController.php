@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Entity\Department;
 use App\Form\ActivateUserType;
 use App\Form\DeleteUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,6 +75,20 @@ class AdminController extends BasicController
         return $this->render('pages/form_page.html.twig', [
             'title' => "Are you sure you want to manually activate this user?",
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/departments", name="departments")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function departments()
+    {
+
+        $departments = $this->getDoctrine()->getRepository(Department::class)->findAll();
+        return $this->render('departments.html.twig', [
+            'departments' => $departments,
+            'title' => 'Departments'
         ]);
     }
 }
