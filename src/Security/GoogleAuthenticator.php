@@ -60,12 +60,13 @@ class GoogleAuthenticator extends SocialAuthenticator
 
         // 3) Maybe you just want to "register" them by creating
         // a User object
-        if(!$user) {
+        if (!$user) {
             $user = new User();
         }
-        $user->setUsername($googleUser->getName());
+        $user->setUsername($googleUser->getEmail());
         $user->setEmail($googleUser->getEmail());
         $user->setActive(true);
+        $user->setFullName($googleUser->getName());
         $this->em->persist($user);
         $this->em->flush();
 
