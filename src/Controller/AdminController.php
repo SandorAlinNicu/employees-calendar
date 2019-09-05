@@ -4,6 +4,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Holiday;
+use App\Entity\Interval;
 use App\Entity\User;
 use App\Entity\Department;
 use App\Form\ActivateUserType;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends BasicController
 {
@@ -149,4 +152,21 @@ class AdminController extends BasicController
             'form' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/requests", name="requests")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')")
+     */
+    public function requests()
+    {
+
+        $requests = $this->getDoctrine()->getRepository(Holiday::class)->findAll();
+        return $this->render('requests.html.twig', [
+            'requests' => $requests,
+            'title' => 'Available Holiday Requests'
+        ]);
+    }
+
+
 }
