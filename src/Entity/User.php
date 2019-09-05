@@ -55,6 +55,18 @@ class User implements UserInterface
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Department")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $department;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Position")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $position;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -178,6 +190,30 @@ class User implements UserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    public function getPosition(): ?Position
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?Position $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }
