@@ -1,4 +1,12 @@
+{% macro display_managers(managers) %}
+    {% for manager in managers %}
+<a href="{{ path('user_edit', {'id': manager.id}) }}">{{ manager.fullName }}</a>{% if (loop.index is not same as(loop.length)) %}, {% endif %}
+    {% endfor %}
+{% endmacro %}
+
 {% extends 'layouts/one_column.html.twig' %}
+
+{% import _self as macros %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -11,11 +19,15 @@
         <tbody>
             <th>ID</th>
             <th>Name</th>
+            <th>Managers</th>
             <th>Options</th>
             {% for entity in departments %}
                 <tr>
                     <td>{{ entity.id }}</td>
                     <td>{{ entity.name }}</td>
+                    <td>
+                       {{ macros.display_managers(entity.managers) }}
+                   </td>
                     <td><a href="{{ path('department_edit', {'id': entity.id}) }}">Edit</a></td>
                 </tr>
             {% endfor %}
