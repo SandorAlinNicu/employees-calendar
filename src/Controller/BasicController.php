@@ -33,6 +33,10 @@ class BasicController extends AbstractController
                         'label' => 'Request Holiday'
                     ),
                     array(
+                        'path' => 'calendar',
+                        'label' => 'Calendar',
+                    ),
+                    array(
                         'path' => 'users',
                         'label' => 'Users',
                         'roles' => ['ROLE_ADMIN']
@@ -41,7 +45,7 @@ class BasicController extends AbstractController
                         'path' => 'departments',
                         'label' => 'Departments',
                         'roles' => ['ROLE_ADMIN']
-                    )
+                    ),
                 ),
                 'rightMenu' => array(
                     array(

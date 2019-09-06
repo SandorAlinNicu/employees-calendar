@@ -69,4 +69,43 @@ class HolidayController extends BasicController
             'title' => 'Request Holiday',
         ]);
     }
+
+    /**
+     * @Route("/calendar", name="calendar")
+     */
+    public function requests(Security $security)
+    {
+        $user = $security->getUser();
+        $users = array($user);
+        if (count(array_intersect($user->getRoles(), array('ROLE_ADMIN', 'ROLE_MANAGER')))) {
+            $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        }
+        $requests = $this->getDoctrine()->getRepository(Holiday::class)->findAll();
+        $grouped_requests = [];
+        /** @var Holiday $request */
+        foreach ($requests as $request) {
+            $request_days = [];
+            foreach ($request->getIntervals() as $interval) {
+                $days = $interval->getDaysArrayInCurrentMonth(date('Y-m-d'));
+                if (!empty($days)) {
+                    $request_days = array_merge($request_days, $days);
+                }
+
+            }
+            if (!isset($grouped_requests[$request->getEmail()])) {
+                $grouped_requests[$request->getEmail()] = [];
+            }
+            $grouped_requests[$request->getEmail()] = array_unique(array_merge($grouped_requests[$request->getEmail()], $request_days));
+
+        }
+        return $this->render('calendar.html.twig', [
+            'grouped_requests' => $grouped_requests,
+            'users' => $users,
+            'max_days' => date('t'),
+            'day' => date('j'),
+            'month' => date('F'),
+            'year' => date('Y'),
+            'title' => 'Calendar'
+        ]);
+    }
 }

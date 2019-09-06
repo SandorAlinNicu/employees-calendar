@@ -1,0 +1,49 @@
+
+{% macro display_days(max_days) %}
+    <td></td>
+    {% for i in 1..max_days %}
+        <td>{{ i }}</td>
+    {% endfor %}
+{% endmacro %}
+
+{% macro display_user(user, max_days, grouped_requests) %}
+    <td>{{ user.fullName }} <br/> {{ user.email }}</td>
+    {% for i in 1..max_days %}
+        {% if (grouped_requests[user.email] is defined and i in grouped_requests[user.email]) %}
+            <td>x</td>
+        {% else %}
+            <td></td>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% extends 'layouts/one_column.html.twig' %}
+{% import _self as macros %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    <h1>{{ title }}</h1>
+
+    <table class="table table-responsive table-bordered">
+
+        <thead>
+        <tr>
+            <th class="text-center" colspan="{{ max_days + 1 }}">{{ month }} - {{ year }}</th>
+        </tr>
+        <tr>
+            {{ macros.display_days(max_days) }}
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                {{ macros.display_user(user, max_days, grouped_requests) }}
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+{% endblock %}
