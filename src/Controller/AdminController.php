@@ -159,7 +159,7 @@ class AdminController extends BasicController
 
     /**
      * @Route("/requests", name="requests")
-     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')")
+     * @IsGranted({"ROLE_ADMIN", "ROLE_MANAGER"})
      */
     public function requests()
     {
