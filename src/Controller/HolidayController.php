@@ -100,14 +100,12 @@ class HolidayController extends BasicController
                 )
                 ->attach(Swift_Attachment::fromPath($pdf_name));
             $mailer->send($message);
-            $flashBag->add('success', 'An email was sent on your address.');
-            return $this->redirectToRoute('homepage');
 
             //Snappy
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($holiday);
             $entityManager->flush();
-            $flashBag->add('success', 'Holiday request was created.');
+            $flashBag->add('success', 'Holiday request was created, an email was sent on your address.');
 
             return $this->redirectToRoute("homepage");
         }
