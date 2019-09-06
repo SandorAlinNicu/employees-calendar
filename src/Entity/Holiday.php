@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Holiday
 {
+
+    const PENDING = 'PENDING';
+    const APPROVED = 'APPROVED';
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,6 +49,11 @@ class Holiday
      * @ORM\ManyToMany(targetEntity="App\Entity\Interval", cascade={"persist"})
      */
     private $intervals;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $status = self::PENDING;
 
     public function __construct()
     {
@@ -126,6 +136,28 @@ class Holiday
             $this->intervals->removeElement($interval);
         }
 
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Sets the holiday status to "APPROVED".
+     * @return Holiday
+     */
+    public function approve(): self
+    {
+        $this->setStatus(self::APPROVED);
         return $this;
     }
 }
