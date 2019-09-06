@@ -1,0 +1,10 @@
+<p>Salutare,</p>
+
+<p>As dori sa-mi iau {{ number_of_days }} zile de concediu, in/intre:</p>
+<ul>
+    {% for date in dates %}
+        <li>{{ date }}</li>
+    {% endfor %}
+</ul>
+
+<p>Multumesc!</p>

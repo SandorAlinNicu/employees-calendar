@@ -12,11 +12,13 @@ use App\Form\ActivateUserType;
 use App\Form\DeleteUserType;
 use App\Form\EditUserType;
 use App\Form\EditDepartmentType;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 class AdminController extends BasicController
 {
@@ -122,7 +124,6 @@ class AdminController extends BasicController
      */
     public function departments()
     {
-
         $departments = $this->getDoctrine()->getRepository(Department::class)->findAll();
         return $this->render('departments.html.twig', [
             'departments' => $departments,

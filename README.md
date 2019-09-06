@@ -22,6 +22,8 @@
         
         # Sender email address
         EMAIL_SENDING_ADDRESS=<example@gmail.com>
+        MAILER_URL=smtp://localhost:25
+        
 4. Create database and tables
                    
           php bin/console doctrine:database:create

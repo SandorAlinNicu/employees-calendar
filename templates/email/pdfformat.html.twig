@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ pathToPublic }}/css/styles_pdf.css">
+    {% endblock %}
+</head>
+<body>
+<div class="email-wrapper container">
+    <div class="header row">
+        <div class="col-md-8">
+            <img class="logo" src="{{ pathToPublic }}/images/freshbyte_logo.png"/>
+        </div>
+        <div class="col-md-4 header-info">
+            <span>Email:</span><br/>
+            <span>contact@freshbyteinc.com</span><br/>
+            <span>Phone: +40 (364)100 152</span><br/>
+            <span>Address: Dunarii 148, Cluj-Napoca</span><br/>
+            <span>Web: www.freshbyeinc.com</span>
+        </div>
+    </div>
+    <h2 class="mail-header text-center">Catre conducerea S.C. MOONWALK SOLUTIONS SRL,</h2>
+
+    <p class="mail-message normal-indent">Subsemnatul/a <strong>{{ name }}</strong>, angajat/a la S.C. MOONWALK SOLUTIONS SRL, in functia de <strong>{{ position }}</strong>, va rog sa-mi
+        aprobati efectuarea a <strong>{{ number_of_days }}</strong> zile din concediul de odihna aferent anului <strong>{{ year }}</strong> in/intre:</p>
+    <ul>
+        {% for date in dates %}
+        <li><strong>{{ date }}</strong></li>
+        {% endfor %}
+    </ul>
+
+    <div class="bottom-content">
+        <p class="thank-you-wrapper">
+            Va multumesc anticipat.
+        </p>
+
+        <div class="date-signature-wrapper row">
+            <div class="col-md-6">
+                <span>Cluj-Napoca</span><br/>
+                <span>Data: {{ todaysDate }}</span>
+            </div>
+            <div class="col-md-6 text-right"><strong>SEMNATURA,</strong></div>
+        </div>
+
+        <div class="approval-signature">
+            <p><strong>APROBAT,</strong></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
