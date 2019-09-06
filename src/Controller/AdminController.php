@@ -153,7 +153,6 @@ class AdminController extends BasicController
         ]);
     }
 
-
     /**
      * @Route("/requests", name="requests")
      * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')")
@@ -162,10 +161,28 @@ class AdminController extends BasicController
     {
 
         $requests = $this->getDoctrine()->getRepository(Holiday::class)->findAll();
-        return $this->render('requests.html.twig', [
-            'requests' => $requests,
-            'title' => 'Available Holiday Requests'
-        ]);
+        $user = $this->getUser();
+        $departments = $user->getDepartments()->toArray();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('requests.html.twig', [
+                'title' => 'Available Holiday Requests',
+                'requests' => $requests
+            ]);
+        } else if ($this->isGranted('ROLE_MANAGER')) {
+            $filteredRequests = [];
+            foreach ($requests as $request) {
+                foreach ($departments as $department) {
+                    if ($request->getDepartment() == $department) {
+                        $filteredRequests[] = $request;
+                    }
+                }
+            };
+            return $this->render('requests.html.twig', [
+                'title' => 'Available Holiday Requests',
+                'requests' => $filteredRequests
+            ]);
+        }
+
     }
 
 
