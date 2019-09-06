@@ -158,7 +158,7 @@ class AdminController extends BasicController
     }
 
     /**
-     * @Route("/requests", name="requests")
+     * @Route("/all-requests", name="requests")
      * @IsGranted({"ROLE_ADMIN", "ROLE_MANAGER"})
      */
     public function requests()
