@@ -14,6 +14,7 @@ class Holiday
 
     const PENDING = 'PENDING';
     const APPROVED = 'APPROVED';
+    const DENIED = 'DENIED';
 
 
     /**
@@ -158,6 +159,15 @@ class Holiday
     public function approve(): self
     {
         $this->setStatus(self::APPROVED);
+        return $this;
+    }
+    /**
+     * Sets the holiday status to "DENIED".
+     * @return Holiday
+     */
+    public function deny(): self
+    {
+        $this->setStatus(self::DENIED);
         return $this;
     }
 }

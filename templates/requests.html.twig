@@ -21,13 +21,24 @@
         <th>Department</th>
         <th>Position</th>
         <th>Intervals required</th>
+        <th colspan="2">Options</th>
         {% for entity in requests %}
             <tr>
-                    <td>{{ entity.name }}</td>
-                    <td>{{ entity.email }}</td>
-                    <td>{{ entity.department.name }}</td>
-                    <td>{{ entity.position.name }}</td>
-                    <td>{{ macros.display_intervals(entity.intervals) }}</td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.email }}</td>
+                <td>{{ entity.department.name }}</td>
+                <td>{{ entity.position.name }}</td>
+                <td>{{ macros.display_intervals(entity.intervals) }}</td>
+                <td>
+                    {% if entity.status != "APPROVED" %}
+                        <a href="{{ path('request_action', {'action': 'approve','id': entity.id}) }}">Approve</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.status != 'DENIED' %}
+                        <a href="{{ path('request_action', {'action': 'deny', 'id': entity.id}) }}">Deny</a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

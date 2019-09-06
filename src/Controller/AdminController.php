@@ -12,13 +12,19 @@ use App\Form\ActivateUserType;
 use App\Form\DeleteUserType;
 use App\Form\EditUserType;
 use App\Form\EditDepartmentType;
+
 use Knp\Snappy\Pdf;
+use App\Form\Type\HolidayStatusChangeType;
+use App\Form\Type\DenyHolidayType;
+use phpDocumentor\Reflection\Type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 class AdminController extends BasicController
 {
@@ -189,5 +195,60 @@ class AdminController extends BasicController
 
     }
 
+    /**
+     * @Route("/request/{action}/{id}", name="request_action")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER')")
+     */
+    public function holidayAction($action, $id, Request $request, \Swift_Mailer $mailer)
+    {
+        $form = $this->createForm(HolidayStatusChangeType::class, [
+            'holidayId' => $id
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $holiday = $em->getRepository(Holiday::class)->findOneBy(['id' => $id]);
+            if ($action === "approve") {
+                $holiday->approve();
+            } else {
+                $holiday->deny();
+            }
+            $employeeEmail = $holiday->getEmail();
+            $employee = $em->getRepository(User::class)->findOneBy(['email' => $employeeEmail]);
+            $employeeDepartment = $employee->getDepartment();
+            $managers = $employeeDepartment->getManagers()->toArray();
+            //set email to employee and managers
+            $email_sender = $_ENV['EMAIL_SENDING_ADDRESS'];
+            $emailRecipients = [
+                $employee->getEmail(),
+            ];
+            foreach ($managers as $manager) {
+                $emailRecipients[] = $manager->getEmail();
+            }
+            $subject = "Holiday request #" . $id . " for " . $employee->getFullName();
+            $message = (new \Swift_Message($subject))
+                ->setFrom($email_sender)
+                ->setTo($emailRecipients)
+                ->setBody(
+                    $this->render('email/holiday_request_approve.html.twig', [
+                        'managerName' => $this->getUser()->getFullName(),
+                        'action' => $action === 'approve' ? 'approved' : 'denied',
+                        'id' => $id,
+                        'fullName' => $employee->getFullName(),
+                    ]),
+                    'text/html'
+                );
+            $mailer->send($message);
 
+            $em->persist($holiday);
+            $em->flush();
+            $this->addFlash('success', 'Holiday ' . ($action === 'approve' ? 'approved' : 'denied') . '!');
+            return $this->redirectToRoute('requests');
+
+        }
+        return $this->render('pages/form_page.html.twig', [
+            'title' => "Are you sure you want to " . $action . " this holiday request?",
+            'form' => $form->createView(),
+        ]);
+    }
 }
