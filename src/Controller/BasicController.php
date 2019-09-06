@@ -35,6 +35,7 @@ class BasicController extends AbstractController
                     array(
                         'path' => 'calendar',
                         'label' => 'Calendar',
+                        'roles' => ['ROLE_USER'],
                     ),
                     array(
                         'path' => 'users',
