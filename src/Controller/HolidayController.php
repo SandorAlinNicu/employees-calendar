@@ -88,7 +88,7 @@ class HolidayController extends BasicController
 
             $temp = $holiday->getEmail();
             $email_sender = $_ENV['EMAIL_SENDING_ADDRESS'];
-            $message = (new \Swift_Message('Hello Email'))
+            $message = (new \Swift_Message('Holiday Notification ' . $holiday->getName()))
                 ->setFrom($email_sender)
                 ->setTo($temp)
                 ->setBody(
