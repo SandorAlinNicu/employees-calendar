@@ -92,7 +92,7 @@ class HolidayController extends BasicController
                 ->setFrom($email_sender)
                 ->setTo($temp)
                 ->setBody(
-                    $this->render('email/emailformat.html.twig', [
+                    $this->renderView('email/emailformat.html.twig', [
                         'number_of_days' => $total_holiday_days,
                         'dates' => $intervals_array,
                     ]),
