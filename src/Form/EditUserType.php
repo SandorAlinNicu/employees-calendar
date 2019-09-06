@@ -1,14 +1,13 @@
 <?php
 
-
 namespace App\Form;
-
 
 use App\Entity\Department;
 use App\Entity\Position;
 use App\Form\Type\MarkDownType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,10 +27,12 @@ class EditUserType extends AbstractType
     public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
+
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('userId', HiddenType::class)
             ->add('fullName', TextType::class, [
@@ -54,6 +55,15 @@ class EditUserType extends AbstractType
                 'class' => Position::class,
                 'placeholder' => 'Choose an option',
                 'choice_label' => 'name',
+            ])
+            ->add('roles', ChoiceType::class, [
+                'attr' => array('class' => 'chzn-select'),
+                'multiple' => true,
+                'placeholder' => 'Choose an option',
+                'choices' => [
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                    'ROLE_MANAGER' => 'ROLE_MANAGER',
+                ]
             ])
             ->add('submit', SubmitType::class)
             ->add('cancel', MarkDownType::class, [

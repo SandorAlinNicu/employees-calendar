@@ -95,6 +95,7 @@ class AdminController extends BasicController
             'fullName' => $user->getFullName(),
             'department' => $user->getDepartment(),
             'position' => $user->getPosition(),
+            'roles' => $user->getRoles(),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -103,6 +104,8 @@ class AdminController extends BasicController
             $user->setFullName($form->get('fullName')->getData());
             $user->setDepartment($form->get('department')->getData());
             $user->setPosition($form->get('position')->getData());
+            $user->setRoles($form->get('roles')->getData());
+            $this->addFlash('success', 'User updated!');
             $em->flush();
             return $this->redirectToRoute('users');
         }
